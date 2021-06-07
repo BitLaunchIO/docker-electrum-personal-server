@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  bitcoind:
+    build:
+      context: .
+      dockerfile: Dockerfile.bitcoind
+    restart: always
+    volumes:
+      - ./bitcoin:/root/.bitcoin
+    networks:
+      - host
+  eps:
+    build:
+      context: .
+      dockerfile: Dockerfile.eps
+    ports:
+      - 127.0.0.1:50002:50002
+    restart: unless-stopped
+    volumes:
+      - ./bitcoin:/root/.bitcoin
+    networks:
+      - host
+    links:
+      - bitcoind
+networks:
+  host:

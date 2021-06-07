@@ -1,0 +1,6 @@
+ControlPort 9051
+CookieAuthentication 1
+CookieAuthFileGroupReadable 1
+
+HiddenServiceDir /var/lib/tor/bitcoin-service
+HiddenServicePort 57283 127.0.0.1:50002

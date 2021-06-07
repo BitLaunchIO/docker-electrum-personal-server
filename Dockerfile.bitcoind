@@ -1,0 +1,14 @@
+FROM ubuntu
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update -y
+RUN apt install -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3 libevent-dev libboost-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libsqlite3-dev libminiupnpc-dev libnatpmp-dev libzmq3-dev wget
+RUN mkdir /bitcoin
+WORKDIR /bitcoin
+RUN wget https://bitcoin.org/bin/bitcoin-core-0.21.0/bitcoin-0.21.0-x86_64-linux-gnu.tar.gz
+RUN tar -xzf bitcoin-0.21.0-x86_64-linux-gnu.tar.gz
+RUN rm bitcoin-0.21.0-x86_64-linux-gnu.tar.gz
+RUN mv bitcoin-0.21.0/bin/* /usr/bin
+RUN apt install -y tor net-tools
+ADD bitcoin_torrc /etc/tor/torrc
+ADD start_btc_core.sh .
+CMD ["./start_btc_core.sh"]
